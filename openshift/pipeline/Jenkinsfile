@@ -1,6 +1,23 @@
 node('nodejs') {
-  stage 'build'
-  openshiftBuild(buildConfig: 'kylie', showBuildLogs: 'true')
-  stage 'deploy'
-  openshiftDeploy(deploymentConfig: 'kylie')
+    stage('build') {
+        script {
+            openshift.withCluster() {
+                openshift.withProject() {
+                    openshift.startBuild("kylie").logs("-f")
+                    //def builds = openshift.selector("bc", "kylie").related('builds')
+                }
+            }
+        }
+    }
+
+    stage('deploy') {
+        script {
+            openshift.withCluster() {
+                openshift.withProject() {
+                    def rm = openshift.selector("dc", "kylie").rollout()
+                }
+            }
+        }
+    }
+
 }
