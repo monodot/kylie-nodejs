@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "kyliefc"
+    "name": "kylie"
   },
   "message": "The following service(s) have been created in your project: ${NAME}.",
   "labels": {
